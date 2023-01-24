@@ -71,9 +71,36 @@ ggplot(nobel_living_science, aes(x = category, fill = living_during_prize)) +
 
 ### Exercise 4
 
-…
+``` r
+nobel_living_science_born <- nobel_living_science %>%
+  mutate(
+    born_country_us = if_else(country == "USA", "USA", "Other")
+  )
 
-### Exercise 5
+dim(nobel_living_science_born)
+```
+
+    ## [1] 228  28
+
+``` r
+ggplot(nobel_living_science_born, aes(x = born_country_us)) +
+  geom_bar(position = "stack") +
+  coord_flip() + facet_wrap(~category)+ labs (x= "Country of Birth", y= "Number of Nobel Laureates" ) + labs(fill="Category of Science") 
+```
+
+![](lab-03_files/figure-gfm/prize-born-1.png)<!-- -->
+
+``` r
+summary_born <- nobel_living_science_born %>%
+  count(category,born_country_us, country, sort = TRUE) 
+```
+
+``` r
+summary_born <- nobel_living_science_born %>%
+  count(category,born_country_us) 
+```
+
+\`\`\` \### Exercise 5
 
 …
 
