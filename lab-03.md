@@ -44,22 +44,30 @@ dim(nobel_living)
 Got it! ☺️
 
 ``` r
-nobel_living <- nobel_living %>%
+living_during_prize <- nobel_living %>%
   mutate(
-    country_us = if_else(country == "USA", "USA", "Other")
+    living_during_prize = if_else(country == "USA", "USA", "Other")
   )
 ```
 
 ``` r
-nobel_living_science <- nobel_living %>%
+nobel_living_science <- living_during_prize %>%
   filter(category %in% c("Physics", "Medicine", "Chemistry", "Economics"))
 
 dim(nobel_living)
 ```
 
-    ## [1] 228  27
+    ## [1] 228  26
 
 ### Exercise 3
+
+``` r
+ggplot(nobel_living_science, aes(x = category, fill = living_during_prize)) +
+  geom_bar(position = "stack") +
+  coord_flip() + facet_wrap(~living_during_prize)+ labs (x= "Category of Science", y= "Number of Nobel Laureates" ) + labs(fill="Country During Prize") 
+```
+
+![](lab-03_files/figure-gfm/prize-us-1.png)<!-- -->
 
 ### Exercise 4
 
