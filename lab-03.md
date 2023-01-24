@@ -17,9 +17,18 @@ nobel <- read_csv("data/nobel.csv")
 
 ### Exercise 1
 
-Remove this text, and add your answer for Exercise 1 here. Add code
-chunks as needed. Don’t forget to label your code chunk. Do not use
-spaces in code chunk labels.
+``` r
+nobel <- read_csv("data/nobel.csv")
+dim(nobel)
+```
+
+    ## [1] 935  26
+
+``` r
+#to specify columns and rows
+```
+
+26 variables and 935 observations, each observation is a Noble Laureate
 
 ### Exercise 2
 
