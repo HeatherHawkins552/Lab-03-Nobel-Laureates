@@ -43,11 +43,23 @@ dim(nobel_living)
 
 Got it! ☺️
 
-### Exercise 3
+``` r
+nobel_living <- nobel_living %>%
+  mutate(
+    country_us = if_else(country == "USA", "USA", "Other")
+  )
+```
 
-Remove this text, and add your answer for Exercise 1 here. Add code
-chunks as needed. Don’t forget to label your code chunk. Do not use
-spaces in code chunk labels.
+``` r
+nobel_living_science <- nobel_living %>%
+  filter(category %in% c("Physics", "Medicine", "Chemistry", "Economics"))
+
+dim(nobel_living)
+```
+
+    ## [1] 228  27
+
+### Exercise 3
 
 ### Exercise 4
 
