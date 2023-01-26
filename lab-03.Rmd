@@ -100,5 +100,11 @@ ggplot(nobel_living_science_born, aes(x = living_during_prize, fill= born_countr
 ```
 Although most U.S. based Laureates were born in the US for the sciences, there is a significant amount of U.S Lauretes that were born in other countries. Because of this, I do believe this data supports Buzzfeed's claim. 
 ### Exercise 6
-
-...
+```{r USA_born_US, fig.height=10, fig.width=10}
+nobel_living_science_born %>%
+  filter(living_during_prize == "USA" &
+           born_country_us!= "USA") %>%
+  count(born_country, sort = TRUE)
+```
+It seems as if Germany and the UK are most common, because they each had 7 people from them!
+```
