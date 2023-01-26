@@ -123,8 +123,10 @@ ggplot(nobel_living_science_born, aes(x = living_during_prize, fill= born_countr
   coord_flip() + facet_wrap(~category)+ labs (x= "Living During Award", y= "Number of Nobel Laureates" ) + labs(fill="Place of Birth") 
 ```
 
-![](lab-03_files/figure-gfm/USA_born_prize-1.png)<!-- -->
-
-### Exercise 6
+![](lab-03_files/figure-gfm/USA_born_prize-1.png)<!-- --> Although most
+U.S. based Laureates were born in the US for the sciences, there is a
+significant amount of U.S Lauretes that were born in other countries.
+Because of this, I do believe this data supports Buzzfeed’s claim. \###
+Exercise 6
 
 …
