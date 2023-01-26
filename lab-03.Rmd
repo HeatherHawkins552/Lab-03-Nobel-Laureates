@@ -56,19 +56,20 @@ dim(nobel_living)
 ### Exercise 3
 
 ```{R prize-us}
-ggplot(nobel_living_science, aes(x = category, fill = living_during_prize)) +
-  geom_bar(position = "stack") +
-  coord_flip() + facet_wrap(~living_during_prize)+ labs (x= "Category of Science", y= "Number of Nobel Laureates" ) + labs(fill="Country During Prize") 
+nobel_living_science_graph <- nobel_living_science %>%
+  group_by(category,living_during_prize) %>%
+  summarize(country_count = table(living_during_prize))
+ggplot(nobel_living_science_graph, mapping = aes(x= country_count, y = living_during_prize))+
+  geom_bar(position = "dodge", stat = "identity")+ facet_wrap(~category)+ labs (x= "Number of Nobel Laureates", y= "Living When Recieving Prize") 
+
 ```
 
 ### Exercise 4
 ```{r USA_born}
 nobel_living_science_born <- nobel_living_science %>%
   mutate(
-    born_country_us = if_else(country == "USA", "USA", "Other")
+    born_country_us = if_else(born_country == "USA", "USA", "Other")
   )
-
-dim(nobel_living_science_born)
 
 ```
 
@@ -77,20 +78,26 @@ ggplot(nobel_living_science_born, aes(x = born_country_us)) +
   geom_bar(position = "stack") +
   coord_flip() + facet_wrap(~category)+ labs (x= "Country of Birth", y= "Number of Nobel Laureates" ) + labs(fill="Category of Science") 
 
-summary_born <- nobel_living_science_born %>%
-  count(category,born_country_us, country, sort = TRUE) 
-
 ```
 
 ```{r nobel_living_NA}
-summary_born <- nobel_living_science_born %>%
-  count(category,born_country_us) 
+nobel_living_science_born %>%
+  group_by(born_country_us) %>% 
+  dplyr::count(born_country_us)
 
 ```
-```
+It seems as if 105 winners were born in the USA
+graphBorn_Country <- nobel_living_science_born %>%
+  group_by(category,living_during_prize,born_country_us) %>%
+  summarize(country_count=table(nobel_living_science_born))
+
 ### Exercise 5
+```{r USA_born_prize, fig.height=10, fig.width=10}
+ggplot(nobel_living_science_born, aes(x = living_during_prize, fill= born_country_us)) +
+  geom_bar(position = "stack") +
+  coord_flip() + facet_wrap(~category)+ labs (x= "Living During Award", y= "Number of Nobel Laureates" ) + labs(fill="Place of Birth") 
 
-...
+```
 
 ### Exercise 6
 

@@ -62,10 +62,21 @@ dim(nobel_living)
 ### Exercise 3
 
 ``` r
-ggplot(nobel_living_science, aes(x = category, fill = living_during_prize)) +
-  geom_bar(position = "stack") +
-  coord_flip() + facet_wrap(~living_during_prize)+ labs (x= "Category of Science", y= "Number of Nobel Laureates" ) + labs(fill="Country During Prize") 
+nobel_living_science_graph <- nobel_living_science %>%
+  group_by(category,living_during_prize) %>%
+  summarize(country_count = table(living_during_prize))
 ```
+
+    ## `summarise()` has grouped output by 'category'. You can override using the
+    ## `.groups` argument.
+
+``` r
+ggplot(nobel_living_science_graph, mapping = aes(x= country_count, y = living_during_prize))+
+  geom_bar(position = "dodge", stat = "identity")+ facet_wrap(~category)+ labs (x= "Number of Nobel Laureates", y= "Living When Recieving Prize") 
+```
+
+    ## Don't know how to automatically pick scale for object of type <table>.
+    ## Defaulting to continuous.
 
 ![](lab-03_files/figure-gfm/prize-us-1.png)<!-- -->
 
@@ -74,13 +85,9 @@ ggplot(nobel_living_science, aes(x = category, fill = living_during_prize)) +
 ``` r
 nobel_living_science_born <- nobel_living_science %>%
   mutate(
-    born_country_us = if_else(country == "USA", "USA", "Other")
+    born_country_us = if_else(born_country == "USA", "USA", "Other")
   )
-
-dim(nobel_living_science_born)
 ```
-
-    ## [1] 228  28
 
 ``` r
 ggplot(nobel_living_science_born, aes(x = born_country_us)) +
@@ -91,18 +98,32 @@ ggplot(nobel_living_science_born, aes(x = born_country_us)) +
 ![](lab-03_files/figure-gfm/prize-born-1.png)<!-- -->
 
 ``` r
-summary_born <- nobel_living_science_born %>%
-  count(category,born_country_us, country, sort = TRUE) 
+nobel_living_science_born %>%
+  group_by(born_country_us) %>% 
+  dplyr::count(born_country_us)
 ```
+
+    ## # A tibble: 2 × 2
+    ## # Groups:   born_country_us [2]
+    ##   born_country_us     n
+    ##   <chr>           <int>
+    ## 1 Other             123
+    ## 2 USA               105
+
+It seems as if 105 winners were born in the USA graphBorn_Country \<-
+nobel_living_science_born %\>%
+group_by(category,living_during_prize,born_country_us) %\>%
+summarize(country_count=table(nobel_living_science_born))
+
+### Exercise 5
 
 ``` r
-summary_born <- nobel_living_science_born %>%
-  count(category,born_country_us) 
+ggplot(nobel_living_science_born, aes(x = living_during_prize, fill= born_country_us)) +
+  geom_bar(position = "stack") +
+  coord_flip() + facet_wrap(~category)+ labs (x= "Living During Award", y= "Number of Nobel Laureates" ) + labs(fill="Place of Birth") 
 ```
 
-\`\`\` \### Exercise 5
-
-…
+![](lab-03_files/figure-gfm/USA_born_prize-1.png)<!-- -->
 
 ### Exercise 6
 
